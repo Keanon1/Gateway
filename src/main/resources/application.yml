@@ -96,9 +96,10 @@ spring:
 
         - id: dashboard
           uri: https://intelligent-banking-system.onrender.com
-          predicates:
-            - Path=/dashboard
-            - Method=GET
+        - predicates:
+          - Path=/
+          filters:
+            - SetPath=/dashboard
 
 
 
