@@ -1,0 +1,153 @@
+
+
+server:
+  port: 9000
+  address: 0.0.0.0
+spring:
+  application:
+    name: api-gateway
+  
+  cloud:
+    gateway:
+      routes:
+        # ============================================================
+        # PAYMENT API ROUTES (Team 5 - Port 8080)
+        # ============================================================
+        
+        # Create Payment
+        - id: payment-create
+          uri: http://localhost:8080/api
+          predicates:
+            - Path=/api/payments
+            - Method=POST
+        
+        # Get Payment by Transaction ID
+        - id: payment-by-transaction
+          uri: http://localhost:8080/api
+          predicates:
+            - Path=/api/payments/transaction/{transactionId}
+            - Method=GET
+        
+        # Get Payments by User ID
+        - id: payments-by-user
+          uri: http://localhost:8080/api
+          predicates:
+            - Path=/api/payments/user/{userId}
+            - Method=GET
+        
+        # Update Payment Status
+        - id: payment-status-update
+          uri: http://localhost:8080/api
+          predicates:
+            - Path=/api/payments/status/{transactionId}
+            - Method=PUT
+        
+        # ============================================================
+        # BENEFICIARY ROUTES (Team 2 via Payment API - Port 8080)
+        # ============================================================
+        
+        # Get Beneficiaries by User ID
+        - id: beneficiaries-by-user
+          uri: http://localhost:8080/api
+          predicates:
+            - Path=/api/beneficiaries/user/{userId}
+            - Method=GET
+        
+        # Get Beneficiary by ID
+        - id: beneficiary-by-id
+          uri: http://localhost:8080/api
+          predicates:
+            - Path=/api/beneficiaries/{beneficiaryId}
+            - Method=GET
+
+
+        
+        # Get All Beneficiaries
+        - id: beneficiaries-all
+          uri: http://localhost:8080/api
+          predicates:
+            - Path=/api/beneficiaries
+            - Method=GET
+        
+        # ============================================================
+        # ACCOUNT BALANCE ROUTES (NEW!)
+        # ============================================================
+        
+        # Get Account Balance by Account ID
+        - id: account-balance
+          uri: http://100.126.206.45:8090/
+          predicates:
+            - Path=/payments
+
+
+        
+        # Get User Balance (Frontend uses this!)
+        - id: user-balance
+          uri: http://localhost:8080/api
+          predicates:
+            - Path=/api/accounts/user/{userId}/balance
+            - Method=GET
+
+        - id: dashboard
+          uri: https://intelligent-banking-system.onrender.com
+          predicates:
+            - Path=/transactions
+            - Method=GET
+
+        - id: dashboard
+          uri: https://intelligent-banking-system.onrender.com
+          predicates:
+            - Path=/dashboard
+            - Method=GET
+
+
+
+
+        - id: frontend-static
+          uri: https://intelligent-banking-system.onrender.com
+          predicates:
+            - Path=/resources/**
+
+        - id: backend
+          uri: https://intelligent-banking-system.onrender.com
+          predicates:
+            - Path=/api/**
+
+
+
+      # ============================================================
+      # GLOBAL CORS CONFIGURATION
+      # ============================================================
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:8090"
+              - "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+# ============================================================
+# ACTUATOR CONFIGURATION (Health Checks)
+# ============================================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: always
+# ============================================================
+# LOGGING CONFIGURATION
+# ============================================================
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web: DEBUG
