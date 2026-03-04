@@ -96,6 +96,12 @@ spring:
           uri: https://intelligent-banking-system.onrender.com
           predicates:
            - Path=/dashboard/**
+             
+
+        - id: dashboard1
+          uri: https://intelligent-banking-system.onrender.com
+          predicates:
+                 - Path=/test-login
 
         - id: root-redirect
           uri: https://intelligent-banking-system.onrender.com
