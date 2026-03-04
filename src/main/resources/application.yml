@@ -78,8 +78,6 @@ spring:
           uri: http://100.126.206.45:8090/
           predicates:
             - Path=/payments
-
-
         
         # Get User Balance (Frontend uses this!)
         - id: user-balance
@@ -96,13 +94,15 @@ spring:
 
         - id: dashboard
           uri: https://intelligent-banking-system.onrender.com
-        - predicates:
-          - Path=/
+          predicates:
+           - Path=/dashboard/**
+
+        - id: root-redirect
+          uri: https://intelligent-banking-system.onrender.com
+          predicates:
+           - Path=/
           filters:
-            - SetPath=/dashboard
-
-
-
+           - SetPath=/dashboard
 
         - id: frontend-static
           uri: https://intelligent-banking-system.onrender.com
