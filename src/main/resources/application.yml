@@ -87,38 +87,38 @@ spring:
             - Method=GET
 
         - id: dashboard
-          uri: https://intelligent-banking-system.onrender.com
+          uri: https://intelligent-banking-system.onrender.com:8080
           predicates:
             - Path=/transactions
             - Method=GET
 
         - id: dashboard
-          uri: https://intelligent-banking-system.onrender.com
+          uri: https://intelligent-banking-system.onrender.com:8080
           predicates:
            - Path=/dashboard/**
 
 
         - id: dashboard1
-          uri: https://intelligent-banking-system.onrender.com
+          uri: https://intelligent-banking-system.onrender.com:8080
           predicates:
                  - Path=/test-login
                  - Method=GET
 
 
         - id: root-redirect
-          uri: https://intelligent-banking-system.onrender.com
+          uri: https://intelligent-banking-system.onrender.com:8080
           predicates:
            - Path=/
           filters:
            - SetPath=/dashboard
 
         - id: frontend-static
-          uri: https://intelligent-banking-system.onrender.com
+          uri: https://intelligent-banking-system.onrender.com:8080
           predicates:
             - Path=/resources/**
 
         - id: backend
-          uri: https://intelligent-banking-system.onrender.com
+          uri: https://intelligent-banking-system.onrender.com:8080
           predicates:
             - Path=/api/**
 
