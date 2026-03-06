@@ -60,7 +60,16 @@ spring:
             - Path=/api/beneficiaries/{beneficiaryId}
             - Method=GET
 
-
+        - id: team2-beneficiaries-api
+          uri: http://100.103.223.52:8082  # Team 2's Tailscale IP
+          predicates:
+           - Path=/login/**
+          filters:
+           - name: Retry
+          args:
+          retries: 3
+          statuses: BAD_GATEWAY
+           - CookieToAuthFilter
         
         # Get All Beneficiaries
         - id: beneficiaries-all
@@ -75,9 +84,11 @@ spring:
         
         # Get Account Balance by Account ID
         - id: account-balance
-          uri: http://100.126.206.45:8090/
+          uri: http://100.126.206.45:8090
           predicates:
-            - Path=/payments
+            - Path=/payment
+          filters:
+                - CookieToAuthFilter
         
         # Get User Balance (Frontend uses this!)
         - id: user-balance
@@ -87,40 +98,49 @@ spring:
             - Method=GET
 
         - id: dashboard
-          uri: https://intelligent-banking-system.onrender.com
+          uri: http://100.96.208.4:7777
           predicates:
             - Path=/transactions
             - Method=GET
 
         - id: dashboard
-          uri: https://intelligent-banking-system.onrender.com
+          uri: http://100.96.208.4:7777
           predicates:
            - Path=/dashboard/**
+          filters:
+           - CookieToAuthFilter
 
+
+        - id: dashboardlocalhost
+          uri: http://100.96.208.4:7777
+          predicates:
+                 - Path=/dashboard
+                 - Method=GET
+          filters:
+                 - CookieToAuthFilter
 
         - id: dashboard1
-          uri: https://intelligent-banking-system.onrender.com
+          uri: http://100.96.208.4:7777
           predicates:
-                 - Path=/test-login
-                 - Method=GET
+            - Path=/test-login
+            - Method=GET
+          filters:
+          - CookieToAuthFilter
 
+        - id: root-redirect11
+          uri: http://100.103.223.52:8080
+          predicates:
+            - Path=/api/auth/**
+            - Method=POST
 
         - id: root-redirect
-          uri: https://intelligent-banking-system.onrender.com
+          uri: http://100.96.208.4:7777
           predicates:
            - Path=/
           filters:
            - SetPath=/dashboard
 
-        - id: frontend-static
-          uri: https://intelligent-banking-system.onrender.com
-          predicates:
-            - Path=/resources/**
 
-        - id: backend
-          uri: https://intelligent-banking-system.onrender.com
-          predicates:
-            - Path=/api/**
 
 
 

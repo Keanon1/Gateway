@@ -12,7 +12,8 @@ public class CorsConfig {
     public CorsWebFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // REQUIRED for cookies
-        config.addAllowedOrigin("https://onrender.com"); // Your Dashboard URL
+        config.addAllowedOrigin("https://onrender.com");
+        config.addAllowedOrigin("http://100.126.206.45:8090");// Your Dashboard URL
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
